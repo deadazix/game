@@ -1,5 +1,18 @@
 body{
-    color: #333;
+    color: white;
     font-weight: 400;
     font-size: 1.6rem;
+    font-family: sans-serif;
+}
+.font-header{
+    font-size: 2rem ;
+    font-weight: 700;
+    white-space: nowrap;
+    
+}
+.font-light{
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--gray4);
+    white-space: nowrap;
 }

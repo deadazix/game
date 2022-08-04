@@ -1,0 +1,15 @@
+.btn-primary{
+    color: var(--gray1);
+    padding: 1rem 0;
+    border-radius: 1rem;
+    transition: .1s;
+    
+}
+div > .btn-primary:not(:last-child){
+    margin-bottom: 1rem;
+}
+.btn-primary:active{
+    box-shadow: none !important;
+    
+
+}

@@ -2,10 +2,25 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    text-transform: uppercase;
 }
 :root{
-    --primary:red;
+    --primary1:rgb(255, 184, 53);
+    --primary1-dark:rgb(227, 150, 7);
+    --primary2:cyan;
+    --primary2-dark:rgb(11, 187, 187);
+    --gray1:#111;
+    --gray2:rgb(34, 32, 55);
+    --gray3:rgb(65, 62, 93);
+    --gray4:#ddd;
+    --gray5:#fff;
 }
-.h1{
-    color: var(--primary);
+html {
+    font-size: 62.5%;
+}
+body{
+    background-color: var(--gray2);
+}
+.u-text-align-center{
+    text-align: center;
 }

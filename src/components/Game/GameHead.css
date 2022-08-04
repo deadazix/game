@@ -1,0 +1,42 @@
+
+.head{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: flex-start;
+    margin-bottom: 4rem;
+}
+.head__turnLabel{
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+    background-color: var(--gray3);
+    padding: .5rem 1.2rem .5rem 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 .5rem var(--gray1) ;
+    transition: .1s;
+    cursor: pointer;
+}
+.head__turnLabel:active{
+    box-shadow: 0 .5rem var(--gray2) ;
+}
+
+.head__reverse{
+    background-color: var(--gray4);
+    border-radius: 1rem;
+    box-shadow: 0 .6rem rgb(181, 181, 181) ;
+    cursor: pointer;
+    transition: .1s;
+}
+.head__reverse:active{
+    box-shadow: none;
+
+}
+.c{
+    width: 3rem;
+
+}
+.r{
+    width: 5rem;
+    stroke: var(--gray2);
+}

@@ -1,0 +1,9 @@
+.logo-svg{
+    width: 4rem;
+}
+.logo-close{
+    fill: var(--primary2);
+}
+.logo-hash{
+    fill: var(--primary1);
+}

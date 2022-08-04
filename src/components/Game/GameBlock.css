@@ -1,0 +1,13 @@
+.block{
+    
+    width: 100%;
+    aspect-ratio: 1;
+    background-color: var(--gray3);
+    border-radius: 1rem;
+    box-shadow: 0 1rem var(--gray1);
+    cursor: pointer;
+    transition: .1s;
+}
+.block:active{
+    box-shadow: 0 0 var(--gray2);
+}

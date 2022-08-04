@@ -10,7 +10,7 @@ import Game from "./components/Game/Game";
 function App() {
   const [player, setPlayer] = useState("close");
   const [opponent, setOpponent] = useState("cpu");
-  const [start, setStart] = useState(0);
+  const [start, setStart] = useState(1);
   const setOpponentHandler = (oponent) => {
     setOpponent((prw) => {
       return oponent;

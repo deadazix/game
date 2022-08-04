@@ -1,10 +1,13 @@
 import "./Game.css";
-import React, { useReducer } from "react";
-import Logo from "../../UI/Logo";
+import React, { useReducer, useEffect, useContext, useState } from "react";
+
 import GameHead from "./GameHead";
 import GameBody from "./GameBody";
 import GameScore from "./GameScore";
 import GameContext from "../../Contect/game-context";
+import CpuLogic from "../../logic/cpuLogic";
+import PlayerContext from "../../Contect/player-context";
+let hasWinner = false
 const checkWinner = (arr) => {
   let doesWon = false;
   const accepted = [
@@ -28,6 +31,7 @@ const checkWinner = (arr) => {
   });
   return doesWon;
 };
+let timeout;
 const useReducerFunction = (state, action) => {
   if (action.type === "CLOSE_SELECTED") {
     const newState = {
@@ -37,6 +41,8 @@ const useReducerFunction = (state, action) => {
     };
     if (checkWinner(newState.selectedClose)) {
       console.log("closeWon");
+      hasWinner=true
+      
     }
 
     return newState;
@@ -49,6 +55,8 @@ const useReducerFunction = (state, action) => {
     };
     if (checkWinner(newState.selectedHash)) {
       console.log("hash won");
+      hasWinner=true
+      
     }
 
     return newState;
@@ -61,12 +69,41 @@ const useReducerFunction = (state, action) => {
   };
 };
 const Game = (probs) => {
+  const [hashChanged, setHashChanged] = useState(false);
+  const ctx = useContext(PlayerContext);
+
   // const
   const [gameState, gameStateDispatch] = useReducer(useReducerFunction, {
     selectedHash: [],
     selectedClose: [],
     currentPlayer: "close",
   });
+  
+  useEffect(() => {
+    const NextMove = CpuLogic([
+      ...gameState.selectedClose,
+      ...gameState.selectedHash,
+    ]);
+
+    if (ctx.opponent === "cpu" && hashChanged) {
+      timeout = setTimeout(() => {
+        if(ctx.playerMark==='hash'&&!hasWinner){
+            gameStateDispatch({ type: "CLOSE_SELECTED", number: NextMove });
+        }else{
+            if(!hasWinner){
+
+                gameStateDispatch({ type: "HASH_SELECTED", number: NextMove });
+            }
+        }
+      }, 200);
+    }
+  }, [hashChanged]);
+
+  useEffect((x) => {
+    if (ctx.playerMark === "hash" && ctx.opponent === "cpu") {
+      setHashChanged(true);
+    }
+  }, []);
 
   const addHashHandler = (number) => {
     gameStateDispatch({ type: "HASH_SELECTED", number: number });
@@ -77,6 +114,12 @@ const Game = (probs) => {
   const setCurrentPlayerHandler = (player) => {};
   const resetHandler = (e) => {
     gameStateDispatch({ type: "RESET" });
+  };
+  const hashChangerHandler = (e) => {
+    
+    setHashChanged((prw) => {
+      return prw + 1;
+    });
   };
   return (
     <div className="game">
@@ -89,6 +132,7 @@ const Game = (probs) => {
           addHash: addHashHandler,
           addClose: addCloseHandler,
           reset: resetHandler,
+          hashChanger: hashChangerHandler,
         }}
       >
         <GameHead></GameHead>

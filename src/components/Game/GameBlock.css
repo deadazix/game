@@ -11,3 +11,11 @@
 .block:active{
     box-shadow: 0 0 var(--gray2);
 }
+.cyan{
+    fill: var(--primary2);
+    width: 100%;
+}
+.orange{
+    fill: var(--primary1);
+    width: 100%;
+}

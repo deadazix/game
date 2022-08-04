@@ -18,17 +18,20 @@ const GameBlock = (probs) => {
       return;
     if (gameCTX.currentPlayer === "close") {
       gameCTX.addClose(key);
+      gameCTX.hashChanger(true)
      
     }
     if (gameCTX.currentPlayer === "hash") {
       gameCTX.addHash(key);
+      gameCTX.hashChanger(true)
+      
    
     }
   };
   return (
     <div onClick={onClickHandler} className="block">
-      {gameCTX.selectedClose.includes(key) && <PlayerClose />}
-      {gameCTX.selectedHash.includes(key) && <PlayerHash />}
+      {gameCTX.selectedClose.includes(key) && <PlayerClose className='cyan' />}
+      {gameCTX.selectedHash.includes(key) && <PlayerHash className='orange' />}
     </div>
   );
 };

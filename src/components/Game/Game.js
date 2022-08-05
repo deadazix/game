@@ -163,7 +163,15 @@ const Game = (probs) => {
     gameStateDispatch({ type: "CLOSE_SELECTED", number: number });
   };
   const resetHandler = (e) => {
-    gameStateDispatch({ type: "RESET" });
+    gameStateDispatch({ type: "NEXT_ROUND" });
+    console.log(ctx.playerMark)
+    if(ctx.playerMark==='close'){
+      console.log('inside')
+      
+    }if(ctx.playerMark==='hash'){
+      console.log('player mark is hash')
+      setHashChanged(20)
+    }
   };
   const hashChangerHandler = (e) => {
     

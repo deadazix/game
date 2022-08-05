@@ -1,6 +1,6 @@
 import "./Game.css";
 import React, { useReducer, useEffect, useContext, useState } from "react";
-
+import OverLay from "../../UI/OverLay";
 import GameHead from "./GameHead";
 import GameBody from "./GameBody";
 import GameScore from "./GameScore";
@@ -33,16 +33,39 @@ const checkWinner = (arr) => {
 };
 let timeout;
 const useReducerFunction = (state, action) => {
+  if(action.type==='EXIT'){
+    return  {
+      selectedHash: [],
+      selectedClose: [],
+      currentPlayer: "close",
+      winner:undefined,
+      scorePlayer1:0,
+      scorePlayer2:0,
+      tie:0,
+    }
+  }
+  if (action.type==='NEXT_ROUND'){
+    const newState = {
+      selectedHash: [],
+      selectedClose: [],
+      currentPlayer: "close",
+      winner:undefined,
+      scorePlayer1:state.scorePlayer1,
+      scorePlayer2:state.scorePlayer2,
+      tie:state.tie,
+    }
+    return newState
+  }
+
   if (action.type === "CLOSE_SELECTED") {
     const newState = {
       selectedHash: [...state.selectedHash],
       selectedClose: [...state.selectedClose, action.number],
       currentPlayer: "hash",
+      winner : checkWinner([...state.selectedClose, action.number])&&'close',
     };
-    if (checkWinner(newState.selectedClose)) {
-      console.log("closeWon");
+    if (checkWinner(newState.selectedClose)) {  
       hasWinner=true
-      
     }
 
     return newState;
@@ -52,9 +75,11 @@ const useReducerFunction = (state, action) => {
       selectedHash: [...state.selectedHash, action.number],
       selectedClose: [...state.selectedClose],
       currentPlayer: "close",
+      winner:checkWinner([...state.selectedHash, action.number])&&'hash'
     };
     if (checkWinner(newState.selectedHash)) {
-      console.log("hash won");
+    
+     
       hasWinner=true
       
     }
@@ -66,10 +91,14 @@ const useReducerFunction = (state, action) => {
     selectedHash: [],
     selectedClose: [],
     currentPlayer: "close",
+    winner:undefined,
+    scorePlayer1:0,
+    scorePlayer2:0,
+    tie:0,
   };
 };
 const Game = (probs) => {
-  const [hashChanged, setHashChanged] = useState(false);
+  const [hashChanged, setHashChanged] = useState(0);
   const ctx = useContext(PlayerContext);
 
   // const
@@ -77,6 +106,10 @@ const Game = (probs) => {
     selectedHash: [],
     selectedClose: [],
     currentPlayer: "close",
+    winner:undefined,
+    scorePlayer1:0,
+    scorePlayer2:0,
+    tie:0,
   });
   
   useEffect(() => {
@@ -101,7 +134,7 @@ const Game = (probs) => {
 
   useEffect((x) => {
     if (ctx.playerMark === "hash" && ctx.opponent === "cpu") {
-      setHashChanged(true);
+      setHashChanged(1);
     }
   }, []);
 
@@ -111,7 +144,6 @@ const Game = (probs) => {
   const addCloseHandler = (number) => {
     gameStateDispatch({ type: "CLOSE_SELECTED", number: number });
   };
-  const setCurrentPlayerHandler = (player) => {};
   const resetHandler = (e) => {
     gameStateDispatch({ type: "RESET" });
   };
@@ -121,6 +153,26 @@ const Game = (probs) => {
       return prw + 1;
     });
   };
+  const onNextRoundHandler = e=>{
+    console.log(ctx.opponent)
+    hasWinner=false
+    gameStateDispatch({type:'NEXT_ROUND'})
+    console.log(ctx.playerMark)
+    if(ctx.playerMark==='close'){
+      console.log('inside')
+      
+    }if(ctx.playerMark==='hash'){
+      console.log('player mark is hash')
+      setHashChanged(20)
+    }
+    
+  }
+  const onExitHandler = e=>{
+    gameStateDispatch({type:'EXIT'})
+    ctx.onExit()
+    hasWinner=false
+
+  }
   return (
     <div className="game">
       <GameContext.Provider
@@ -128,15 +180,20 @@ const Game = (probs) => {
           selectedHash: gameState.selectedHash,
           selectedClose: gameState.selectedClose,
           currentPlayer: gameState.currentPlayer,
-          setCurrentPlayer: setCurrentPlayerHandler,
+
+          winner:gameState.winner,
+
           addHash: addHashHandler,
           addClose: addCloseHandler,
           reset: resetHandler,
           hashChanger: hashChangerHandler,
+          onNextRound:onNextRoundHandler,
+          onExit:onExitHandler,
         }}
       >
         <GameHead></GameHead>
         <GameBody></GameBody>
+        {gameState.winner&& <OverLay></OverLay>}
       </GameContext.Provider>
     </div>
   );

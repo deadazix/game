@@ -20,6 +20,9 @@ function App() {
   const onStartHandler = (e) => {
     console.log(e);
   };
+  const onExitHandler = e=>{
+    setStart(1)
+  }
   return (
     <PlayerContext.Provider
       value={{
@@ -29,6 +32,7 @@ function App() {
         onChangeOpponent: setOpponentHandler,
 
         onStart: onStartHandler,
+        onExit:onExitHandler,
       }}
     >
       {start ? <StartScreen></StartScreen> : <Game></Game>}

@@ -63,3 +63,8 @@
     justify-content: center;
     gap: 1rem;
 }
+.margin{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    color: orange;
+}

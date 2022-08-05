@@ -33,6 +33,7 @@ const checkWinner = (arr) => {
 };
 let timeout;
 const useReducerFunction = (state, action) => {
+  
   if(action.type==='EXIT'){
     return  {
       selectedHash: [],
@@ -58,7 +59,7 @@ const useReducerFunction = (state, action) => {
   }
 
   if (action.type === "CLOSE_SELECTED") {
-    const newState = {
+    let newState = {
       selectedHash: [...state.selectedHash],
       selectedClose: [...state.selectedClose, action.number],
       currentPlayer: "hash",
@@ -67,11 +68,19 @@ const useReducerFunction = (state, action) => {
     if (checkWinner(newState.selectedClose)) {  
       hasWinner=true
     }
-
+    if([...state.selectedClose,...state.selectedHash].length==8&&!newState.winner){
+      console.log('draw')
+      newState =  {
+        selectedHash: [...state.selectedHash],
+        selectedClose: [...state.selectedClose, action.number],
+        currentPlayer: "hash",
+        winner : 'draw',
+      }
+    }
     return newState;
   }
   if (action.type === "HASH_SELECTED") {
-    const newState = {
+    let newState = {
       selectedHash: [...state.selectedHash, action.number],
       selectedClose: [...state.selectedClose],
       currentPlayer: "close",
@@ -82,6 +91,15 @@ const useReducerFunction = (state, action) => {
      
       hasWinner=true
       
+    }
+    if([...state.selectedClose,...state.selectedHash].length==8&&!newState.winner){
+      console.log('draw')
+      newState = {
+        selectedHash: [...state.selectedHash, action.number],
+        selectedClose: [...state.selectedClose],
+        currentPlayer: "close",
+        winner:'draw',
+      }
     }
 
     return newState;
